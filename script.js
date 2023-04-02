@@ -15,6 +15,7 @@ let brushXPoints = new Array();
 let brushYPoints = new Array();
 let brushDownPos = new Array();
 let eraserSize = 10;
+let sizeSlider=document.querySelector("#size-slider");
 class ShapeBoundingBox{
     constructor(left, top, width, height) {
         this.left = left;
@@ -58,6 +59,14 @@ function setupCanvas(){
     canvas.addEventListener("mousedown", ReactToMouseDown);
     canvas.addEventListener("mousemove", ReactToMouseMove);
     canvas.addEventListener("mouseup", ReactToMouseUp);
+}
+
+
+function slider(value)
+{
+    // console.log(value, typeof(value));
+    ctx.lineWidth = parseInt(value);
+    line_Width = parseInt(value);
 }
 
 function ChangeTool(toolClicked){
@@ -151,7 +160,8 @@ function drawRubberbandShape(loc){
     ctx.fillStyle = fillColor;
     if(currentTool === "brush"){
         DrawBrush();
-    } else if(currentTool === "line"){
+    }
+    else if(currentTool === "line"){
         ctx.beginPath();
         ctx.moveTo(mousedown.x, mousedown.y);
         ctx.lineTo(loc.x, loc.y);
@@ -214,6 +224,10 @@ function ReactToMouseDown(e){
         usingBrush = true;
         AddBrushPoint(loc.x, loc.y);
     }
+    if(currentTool === 'brush2'){
+        usingBrush = true;
+        AddBrushPoint(loc.x, loc.y);
+    }
     if (currentTool === 'eraser'){
         usingEraser = true;
         AddBrushPoint(loc.x, loc.y);
@@ -223,7 +237,7 @@ function ReactToMouseDown(e){
 function ReactToMouseMove(e){
     canvas.style.cursor = "crosshair";
     loc = GetMousePosition(e.clientX, e.clientY);
-    if((currentTool === 'brush' || currentTool === 'eraser') && dragging && (usingBrush || usingEraser)){
+    if((currentTool === 'brush' || currentTool === 'eraser'|| currentTool === 'brush2') && dragging && (usingBrush || usingEraser)){
         if(loc.x > 0 && loc.x < canvasWidth && loc.y > 0 && loc.y < canvasHeight){
             AddBrushPoint(loc.x, loc.y, true);
         }

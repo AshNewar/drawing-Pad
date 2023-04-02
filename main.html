@@ -15,6 +15,7 @@
  
             <div class="toolbar">
                 <a href="#" id="save" onclick="SaveImage()"><img src="save-icon.png"></a>
+                <input type="range" onchange = "slider(this.value)" id="size-slider" min="1" max="30" value="5">
                 <a href="#" id="eraser" onclick="ChangeTool('eraser')"><img src="eraser-icon.png"></a>
                 <a class = "selected" href="#" id="brush" onclick="ChangeTool('brush')"><img src="brush-icon.png"></a>
                 <a href="#" id="line" onclick="ChangeTool('line')"><img src="line-icon.png"></a>
