@@ -16,6 +16,7 @@ let brushYPoints = new Array();
 let brushDownPos = new Array();
 let eraserSize = 10;
 let sizeSlider=document.querySelector("#size-slider");
+// let clear2=document.getElementById("clear");
 class ShapeBoundingBox{
     constructor(left, top, width, height) {
         this.left = left;
@@ -76,6 +77,9 @@ function ChangeTool(toolClicked){
     document.getElementById("save").className = "";
     document.getElementById("eraser").className = "";
     document.getElementById("brush").className = "";
+    document.getElementById("brush2").className = "";
+
+
     document.getElementById("line").className = "";
     document.getElementById("rectangle").className = "";
     document.getElementById("circle").className = "";
@@ -164,6 +168,12 @@ function drawRubberbandShape(loc){
     if(currentTool === "brush"){
         DrawBrush();
     }
+    else if(currentTool === "brush2"){
+        DrawBrush();
+    }
+    else if(currentTool === "brush3"){
+        DrawBrush();
+    }
     else if(currentTool === "line"){
         ctx.beginPath();
         ctx.moveTo(mousedown.x, mousedown.y);
@@ -211,6 +221,22 @@ function DrawBrush(){
             ctx.moveTo(brushXPoints[i]-1, brushYPoints[i]);
         }
         ctx.lineTo(brushXPoints[i], brushYPoints[i]);
+        if(currentTool==="brush"){
+            ctx.lineCap="round";
+            ctx.lineJoin="round";
+            ctx.shadowBlur=0;
+        }
+        else if(currentTool==="brush2"){
+            ctx.lineCap="round";
+            ctx.lineJoin="round";
+            ctx.shadowBlur=15;
+            ctx.shadowColor = 'rgb(0, 0, 0)';
+        }
+        // else if(currentTool==="brush"){
+        //     ctx.lineCap=0;
+        //     ctx.lineJoin="butt";
+        //     ctx.shadowBlur=0;
+        // }
         ctx.closePath();
         ctx.stroke();
     }
@@ -231,6 +257,10 @@ function ReactToMouseDown(e){
         usingBrush = true;
         AddBrushPoint(loc.x, loc.y);
     }
+    if(currentTool === 'brush3'){
+        usingBrush = true;
+        AddBrushPoint(loc.x, loc.y);
+    }
     if (currentTool === 'eraser'){
         usingEraser = true;
         AddBrushPoint(loc.x, loc.y);
@@ -240,7 +270,7 @@ function ReactToMouseDown(e){
 function ReactToMouseMove(e){
     canvas.style.cursor = "crosshair";
     loc = GetMousePosition(e.clientX, e.clientY);
-    if((currentTool === 'brush' || currentTool === 'eraser'|| currentTool === 'brush2') && dragging && (usingBrush || usingEraser)){
+    if((currentTool === 'brush' || currentTool === 'eraser'|| currentTool === 'brush2'|| currentTool === 'brush3') && dragging && (usingBrush || usingEraser)){
         if(loc.x > 0 && loc.x < canvasWidth && loc.y > 0 && loc.y < canvasHeight){
             AddBrushPoint(loc.x, loc.y, true);
         }
@@ -288,3 +318,22 @@ function fill() {
     ctx.fillStyle = fillColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
+const setCanvasBackground = () => {
+    // setting whole canvas background to white, so the downloaded img background will be white
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = strokeColor; // setting fillstyle back to the selectedColor, it'll be the brush color
+}
+
+
+function clear2(){
+    // console.log("clickedCLear");
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // clearing whole canvas
+    setCanvasBackground();
+
+    
+}
+// clear2.addEventListener("click",()=>{
+    
+
+// })
