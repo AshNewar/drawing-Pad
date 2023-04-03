@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Canvas Drawing and Fill</title>
+	<style>
+		canvas {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="myCanvas" width="500" height="500"></canvas>
+	<br>
+	<label for="fillColor">Fill Color:</label>
+	<input type="color" id="fillColor" name="fillColor" value="#ff0000">
+	<br>
+	<label for="strokeColor">Stroke Color:</label>
+	<input type="color" id="strokeColor" name="strokeColor" value="#000000">
+	<br>
+	<button onclick="fill()">Fill Closed Shape</button>
+	<button onclick="fillAll()">Fill Entire Canvas</button>
+	<script>
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+		var isDrawing = false;
+		var lastX, lastY;
+		var fillColor = "#ff0000";
+		var strokeColor = "#000000";
+
+		canvas.addEventListener("mousedown", function(e) {
+			isDrawing = true;
+			lastX = e.clientX - canvas.offsetLeft;
+			lastY = e.clientY - canvas.offsetTop;
+			ctx.beginPath();
+			ctx.moveTo(lastX, lastY);
+		});
+
+		canvas.addEventListener("mousemove", function(e) {
+			if (isDrawing) {
+				var x = e.clientX - canvas.offsetLeft;
+				var y = e.clientY - canvas.offsetTop;
+				ctx.lineTo(x, y);
+				ctx.strokeStyle = strokeColor;
+				ctx.stroke();
+				lastX = x;
+				lastY = y;
+			}
+		});
+
+		canvas.addEventListener("mouseup", function(e) {
+			isDrawing = false;
+			ctx.closePath();
+		});
+
+		canvas.addEventListener("contextmenu", function(e) {
+			e.preventDefault();
+			var x = e.clientX - canvas.offsetLeft;
+			var y = e.clientY - canvas.offsetTop;
+			if (isInsideClosedShape(ctx, x, y)) {
+				fillClosedShape(ctx, fillColor);
+			} else {
+				fillAll();
+			}
+		});
+
+		function isInsideClosedShape(ctx, x, y) {
+			var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+			var pixels = imageData.data;
+			var index = (x + y * canvas.width) * 4;
+			var targetColor = [pixels[index], pixels[index + 1], pixels[index + 2], pixels[index + 3]];
+			var stack = [{x: x, y: y}];
+			while (stack.length) {
+				var current = stack.pop();
+				index = (current.x + current.y * canvas.width) * 4;
+				if (compareColors([pixels[index], pixels[index + 1], pixels[index + 2], pixels[index + 3]], targetColor)) {
+					if (current.x > 0) {
+						stack.push({x: current.x - 1, y: current.y});
+					}
+					if (current.y > 0) {
+						stack.push({x: current.x, y: current.y - 1});
+					}
+					if (current.x < canvas.width - 1) {
+						stack.push({x: current.x + 1, y: current.y});
+					}
+					if (current.y < canvas.height - 1) {
+						stack.push({x: current.x, y: current.y + 1});
+					}
+				}
+			}
+			for (var i = 0; i < pixels.length; i += 4) {
+				if (compareColors([pixels[i], pixels[i + 1], pixels[i + 2], pixels[i + 3]], targetColor)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		function compareColors(color1, color2) {
+			for (var i = 0; i < color1.length; i++) {
+				if (color1[i] != color2[i]) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		function fillClosedShape(ctx, fillColor) {
+			var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+			var pixels = imageData.data;
+			var index = (lastX + lastY * canvas.width) * 4;
+			var targetColor = [pixels[index], pixels[index + 1], pixels[index + 2], pixels[index + 3]];
+			var stack = [{x: lastX, y: lastY}];
+			while (stack.length) {
+				var current = stack.pop();
+				index = (current.x + current.y * canvas.width) * 4;
+				if (compareColors([pixels[index], pixels[index + 1], pixels[index + 2], pixels[index + 3]], targetColor)) {
+					setPixel(pixels, index, fillColor);
+					if (current.x > 0) {
+						stack.push({x: current.x - 1, y: current.y});
+					}
+					if (current.y > 0) {
+						stack.push({x: current.x, y: current.y - 1});
+					}
+					if (current.x < canvas.width - 1) {
+						stack.push({x: current.x + 1, y: current.y});
+					}
+					if (current.y < canvas.height - 1) {
+						stack.push({x: current.x, y: current.y + 1});
+					}
+				}
+			}
+			ctx.putImageData(imageData, 0, 0);
+		}
+
+		function setPixel(pixels, index, color) {
+			pixels[index] = hexToRgb(color).r;
+			pixels[index + 1] = hexToRgb(color).g;
+			pixels[index + 2] = hexToRgb(color).b;
+			pixels[index + 3] = 255;
+		}
+
+		function hexToRgb(hex) {
+			var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+			return result ? {
+				r: parseInt(result[1], 16),
+				g: parseInt(result[2], 16),
+				b: parseInt(result[3], 16)
+			} : null;
+		}
+
+		function fill() {
+			fillColor = document.getElementById("fillColor").value;
+		}
+
+		function fillAll() {
+			ctx.fillStyle = fillColor;
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+		}
+
+		function changeStrokeColor() {
+			strokeColor = document.getElementById("strokeColor").value;
+		}
+	</script>
+</body>
+</html>

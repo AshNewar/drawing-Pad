@@ -28,9 +28,9 @@
                 <a href="#" id="polygon" onclick="ChangeTool('polygon')"><img src="polygon-icon.png"></a>
             </div><br>
             <canvas id="my-canvas" width="600" height="600"></canvas>
-            <div class="color-picker">
-                <input class="jscolor" value="000000" onchange="ChangeColor(this.value)">
-            </div>
+
+            <!-- <input class="jscolor" value="000000" onchange="ChangeColor(this.value)"> -->
+            <input type="color" id="fillColor" name="fillColor" value="#ff0000" onchange="ChangeColor(this.value)"" >
             <div id="img-data-div">
                 <a href="#" id="img-file" download="image.png">download image</a>
             </div>
