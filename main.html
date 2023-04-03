@@ -28,15 +28,15 @@
                 <a href="#" id="polygon" onclick="ChangeTool('polygon')"><img src="polygon-icon.png"></a>
             </div><br>
             <canvas id="my-canvas" width="600" height="600"></canvas>
-
-            <!-- <input class="jscolor" value="000000" onchange="ChangeColor(this.value)"> -->
-            <input type="color" id="fillColor" name="fillColor" value="#ff0000" onchange="ChangeColor(this.value)"" >
-            <div id="img-data-div">
-                <a href="#" id="img-file" download="image.png">download image</a>
-            </div>
-            <!-- <div>
-                <input class="text-input" class="color-picker" data-huebee='{ "staticOpen": true, "shades": 1 }' onchange="ChangeColor(this.value)" />
-            </div> -->
+            
+            <label for="fillColor">Stroke Color:</label>
+            <input type="color" id="fillColor" name="fillColor" value="#ff0000" onchange="ChangeColor(this.value)" >
+            <label for="strokeColor">Canvas Color:</label>
+            <input type="color" id="canvasColor" name="canvasColor" value="#000000" onchange="ChangeColorCanvas(this.value)">
+            <a href="#" id="img-file" download="image.png">download image</a>
+            <button onclick="fill()">Fill Color</button>
+            
+            
             
 
         </div>

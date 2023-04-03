@@ -49,6 +49,9 @@ let shapeBoundingBox = new ShapeBoundingBox(0,0,0,0);
 let mousedown = new MouseDownPos(0,0);
 let loc = new Location(0,0);
 
+// canvas = document.getElementById("myCanvas");
+// ctx = canvas.getContext("2d");
+
 document.addEventListener('DOMContentLoaded', setupCanvas);
 
 function setupCanvas(){
@@ -275,4 +278,13 @@ function ChangeColor(color) {
     strokeColor = color;
     ctx.strokeStyle = color;
     fillColor = color;
+}
+
+
+function fill() {
+    var canvas = document.getElementById("my-canvas");
+    var ctx = canvas.getContext("2d");
+    var fillColor = document.getElementById("canvasColor").value;
+    ctx.fillStyle = fillColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
