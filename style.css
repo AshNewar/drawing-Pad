@@ -1,22 +1,66 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    height: 100%;
+    /* background-color: #5b5454; */
+}
+button{margin: 1rem;
+    padding: 5px 8px;
+    border-radius:5px ;
+    /* background-color: ; */
+}
 .wrapper {
-    max-width: 900px;
-    margin: auto;
+    text-align: center;
+    /* max-width: 900px; */
+    margin: 1rem;
     font-family: "Arial";
+    display: flex;
+    gap: 10px;
+    justify-items: center;
 }
 
 .toolbar{
-    width: 100%;
-    background-color: #444444;
+    /* justify-content: flex-start; */
+    /* display: block; */
+    width: 20%;
+    background-color: #ab61fa;
     overflow: auto;
+    border-radius: 5px;
+
+}a{
+    color: white;
+    text-decoration: none;
+}
+img{
+    width: 20%;
+    padding: 0 2px;
 }
 
 .toolbar a {
     float: left;
-    width: 11%;
-    text-align: center;
+    /* width: 11%; */
+    width: 75%;
+    /* text-align: center; */
     padding: 6px 5px;
     transition: all 0.5s ease;
     color: white;
+    margin: 10px;
+    border-radius: 5px;
+}
+.item{
+    /* display: flex; */
+    /* margin-left:2px ; */
+    align-items: center;
+    justify-content:flex-start;
+}
+.item span{
+    position: relative;
+    bottom: 12px;
+}
+.shapes{
+    margin-top: 15px;
 }
 
 /* Change color on hover */
@@ -32,6 +76,9 @@
 #my-canvas{
     width: 100%;
     border: 3px solid #000000;
+    border-radius: 5px;
+
+    /* display: none;    */
 }
 
 #img-data-div{
@@ -55,4 +102,17 @@
     box-shadow: inset 0 2px 10px hsla(0, 0%, 0%, 0.15);
     border-radius: 5px;
     font-size: 1.2rem;
+  }
+  .box{
+    display: block;
+  }
+  .box3{
+    display: block;
+    width: 20%;
+    color: white;
+    background-color: #ab61fa;
+    border-radius: 5px;
+  }
+  .space{
+    margin:  1rem 0.8rem;
   }

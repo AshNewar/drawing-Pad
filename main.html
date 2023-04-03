@@ -16,29 +16,75 @@
     <body>
         <div class="wrapper">
  
-            <div class="toolbar">
-                <a href="#" id="save" onclick="SaveImage()"><img src="save-icon.png"></a>
-                <input type="range" onchange = "slider(this.value)" id="size-slider" min="1" max="30" value="5">
-                <a href="#" id="eraser" onclick="ChangeTool('eraser')"><img src="eraser-icon.png"></a>
-                <a class = "selected" href="#" id="brush" onclick="ChangeTool('brush')"><img src="brush-icon.png"></a>
-                <a  href="#" id="brush2" onclick="ChangeTool('brush2')"><img src="brush-icon.png"></a>
-                <!-- <a  href="#" id="brush3" onclick="ChangeTool('brush3')"><img src="brush-icon.png"></a> -->
+            <section class="toolbar">
+                
+                <div class="item">
+                    <a href="#" id="eraser" onclick="ChangeTool('eraser')"><img src="eraser-icon.png"><span>Eraser</span></a>
+                    <input type="range" onchange = "slider2(this.value)" id="size-slider2" min="1" max="30" value="5">
+                </div>
+                <div class="item">
+                    <a class = "selected" href="#" id="brush" onclick="ChangeTool('brush')"><img src="brush-icon.png"><span>Pencil</span></a>
+                    <input type="range" onchange = "slider(this.value)" id="size-slider" min="1" max="30" value="5">
 
-                <a href="#" id="line" onclick="ChangeTool('line')"><img src="line-icon.png"></a>
-                <a href="#" id="rectangle" onclick="ChangeTool('rectangle')"><img src="rectangle-icon.png"></a>
-                <a href="#" id="circle" onclick="ChangeTool('circle')"><img src="circle-icon.png"></a>
-                <a href="#" id="ellipse" onclick="ChangeTool('ellipse')"><img src="ellipse-icon.png"></a>
-                <a href="#" id="polygon" onclick="ChangeTool('polygon')"><img src="polygon-icon.png"></a>
-            </div><br>
-            <canvas id="my-canvas" width="600" height="600"></canvas>
+                </div>
+                <div class="item">
+                    <a  href="#" id="brush2" onclick="ChangeTool('brush2')"><img src="brush-icon.png"><span>Brush</span></a>
+                    <input type="range" onchange = "slider3(this.value)" id="size-slider3" min="1" max="30" value="5">
+
+                </div>
+                <div class="shapes">
+                    <h2>Shapes</h2>
+                
+                    <div class="item">
+                    <a href="#" id="line" onclick="ChangeTool('line')"><img src="line-icon.png"><span>Line</span></a>
+
+                        
+                    </div>
+                    <div class="item">
+                <a href="#" id="rectangle" onclick="ChangeTool('rectangle')"><img src="rectangle-icon.png"><span>Rectangle</span></a>
+
+                        
+                    </div>
+                    <div class="item">
+                <a href="#" id="circle" onclick="ChangeTool('circle')"><img src="circle-icon.png"><span>Circle</span></a>
+
+                        
+                    </div>
+                    <div class="item">
+                <a href="#" id="ellipse" onclick="ChangeTool('ellipse')"><img src="ellipse-icon.png"><span>Ellipse</span></a>
+
+                        
+                    </div>
+                    <div class="item">
+                <a href="#" id="polygon" onclick="ChangeTool('polygon')"><img src="polygon-icon.png"><span>Polygon</span></a>
+
+                        
+                    </div>
+
+                </div>
+                
+
+                
+            </section>
+            <canvas id="my-canvas" width="600" height="380"></canvas>
+            <section class="box3">
+                <div class="pickColor space">
+                    <label for="fillColor">Stroke Color:</label>
+                    <input type="color" id="fillColor" name="fillColor" value="black" onchange="ChangeColor(this.value)" >
+                </div>
+                <div class="canvasCOlor space">
+                <label for="strokeColor">Canvas Color:</label>
+                <input type="color" id="canvasColor" name="canvasColor" value="#000000" onchange="ChangeColorCanvas(this.value)">
+                <button onclick="fill()">Fill Color</button>
+                </div>
+                <div class="item">
+                <a href="#" id="img-file" download="image.png"><img src="download.png"><span> Download</span></a>
+                </div>
+                <button id="clear" onclick="clear2()">Clear</button>
+            </section>
             
-            <label for="fillColor">Stroke Color:</label>
-            <input type="color" id="fillColor" name="fillColor" value="#ff0000" onchange="ChangeColor(this.value)" >
-            <label for="strokeColor">Canvas Color:</label>
-            <input type="color" id="canvasColor" name="canvasColor" value="#000000" onchange="ChangeColorCanvas(this.value)">
-            <a href="#" id="img-file" download="image.png">download image</a>
-            <button onclick="fill()">Fill Color</button>
-            <button id="clear" onclick="clear2()">Clear</button>
+            
+            
             
             
         </div>

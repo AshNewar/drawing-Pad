@@ -4,7 +4,9 @@ let savedImageData;
 let dragging = false;
 let strokeColor = 'black';
 let fillColor = 'black';
-let line_Width = 2;
+let line_Width = 5;
+let eraser_width=5;
+let line_Width2=5;
 let polygonSides = 6;
 let currentTool = 'brush';
 let canvasWidth = 600;
@@ -16,6 +18,9 @@ let brushYPoints = new Array();
 let brushDownPos = new Array();
 let eraserSize = 10;
 let sizeSlider=document.querySelector("#size-slider");
+let sizeSlider2=document.querySelector("#size-slider2");
+let sizeSlider3=document.querySelector("#size-slider3");
+
 // let clear2=document.getElementById("clear");
 class ShapeBoundingBox{
     constructor(left, top, width, height) {
@@ -72,14 +77,26 @@ function slider(value)
     ctx.lineWidth = parseInt(value);
     line_Width = parseInt(value);
 }
+function slider2(value)
+{
+    // console.log(value, typeof(value));
+    ctx.lineWidth = parseInt(value);
+    line_Width = parseInt(value);
+}
+function slider3(value)
+{
+    // console.log(value, typeof(value));
+    ctx.lineWidth = parseInt(value);
+    line_Width = parseInt(value);
+}
 
 function ChangeTool(toolClicked){
+    console.log(toolClicked)
     document.getElementById("save").className = "";
     document.getElementById("eraser").className = "";
     document.getElementById("brush").className = "";
     document.getElementById("brush2").className = "";
-
-
+    // document.getElementById("text").className = "";
     document.getElementById("line").className = "";
     document.getElementById("rectangle").className = "";
     document.getElementById("circle").className = "";
@@ -190,7 +207,7 @@ function drawRubberbandShape(loc){
         let radiusX = shapeBoundingBox.width / 2;
         let radiusY = shapeBoundingBox.height / 2;
         ctx.beginPath();
-        ctx.ellipse(mousedown.x, mousedown.y, radiusX, radiusY, Math.PI / 4, 0, Math.PI * 2);
+        ctx.ellipse(mousedown.x, mousedown.y, radiusX, radiusY, 0, 0, Math.PI * 2);
         ctx.stroke();
     } else if(currentTool === "polygon"){
         ctx.globalCompositeOperation = "";
@@ -199,6 +216,9 @@ function drawRubberbandShape(loc){
     } else if(currentTool === "eraser"){
         DrawBrush();
     }
+    // else if(currentTool==="text"){
+    //     textBox();
+    // }
 
 }
 
@@ -222,6 +242,7 @@ function DrawBrush(){
         }
         ctx.lineTo(brushXPoints[i], brushYPoints[i]);
         if(currentTool==="brush"){
+            ctx.lineWidth=
             ctx.lineCap="round";
             ctx.lineJoin="round";
             ctx.shadowBlur=0;
@@ -232,11 +253,10 @@ function DrawBrush(){
             ctx.shadowBlur=15;
             ctx.shadowColor = 'rgb(0, 0, 0)';
         }
-        // else if(currentTool==="brush"){
-        //     ctx.lineCap=0;
-        //     ctx.lineJoin="butt";
-        //     ctx.shadowBlur=0;
-        // }
+        else if(currentTool==="eraser"){
+            ctx.shadowBlur=0;
+        }
+    
         ctx.closePath();
         ctx.stroke();
     }
@@ -245,6 +265,7 @@ function DrawBrush(){
 function ReactToMouseDown(e){
     canvas.style.cursor = "crosshair";
     loc = GetMousePosition(e.clientX, e.clientY);
+    // console.log(SaveCanvasImage);
     SaveCanvasImage();
     mousedown.x = loc.x;
     mousedown.y = loc.y;
@@ -264,6 +285,11 @@ function ReactToMouseDown(e){
     if (currentTool === 'eraser'){
         usingEraser = true;
         AddBrushPoint(loc.x, loc.y);
+    }
+    if(currentTool==="text"){
+
+        AddBrushPoint(loc.x,loc.y);
+        textBox(e);
     }
 };
 
@@ -327,11 +353,23 @@ const setCanvasBackground = () => {
 
 
 function clear2(){
-    // console.log("clickedCLear");
+    // console.log("clickedCLear"); 
     ctx.clearRect(0, 0, canvas.width, canvas.height); // clearing whole canvas
     setCanvasBackground();
 
     
+}
+
+function textBox(loc){
+    console.log(loc.clientX,loc.clientY);
+    console.log(loc.offsetX,loc.offsetY);
+
+
+    ctx.font="bold 20px sans-serif";
+    ctx.fillText("ashish",5,88);
+
+
+
 }
 // clear2.addEventListener("click",()=>{
     
