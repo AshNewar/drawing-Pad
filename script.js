@@ -3,7 +3,7 @@ let ctx;
 let savedImageData;
 let dragging = false;
 let strokeColor = 'black';
-let fillColor = 'black';
+let fillColor = 'white';
 let line_Width = 5;
 let eraser_width=5;
 let line_Width2=5;
@@ -92,11 +92,9 @@ function slider3(value)
 
 function ChangeTool(toolClicked){
     console.log(toolClicked)
-    document.getElementById("save").className = "";
     document.getElementById("eraser").className = "";
     document.getElementById("brush").className = "";
     document.getElementById("brush2").className = "";
-    // document.getElementById("text").className = "";
     document.getElementById("line").className = "";
     document.getElementById("rectangle").className = "";
     document.getElementById("circle").className = "";
@@ -198,6 +196,7 @@ function drawRubberbandShape(loc){
         ctx.stroke();
     } else if(currentTool === "rectangle"){
         ctx.strokeRect(shapeBoundingBox.left, shapeBoundingBox.top, shapeBoundingBox.width, shapeBoundingBox.height);
+        ctx.fillRect(shapeBoundingBox.left, shapeBoundingBox.top, shapeBoundingBox.width, shapeBoundingBox.height);
     } else if(currentTool === "circle"){
         let radius = shapeBoundingBox.width;
         ctx.beginPath();
@@ -333,14 +332,19 @@ function ChangeColor(color) {
     console.log(color, typeof(color));
     strokeColor = color;
     ctx.strokeStyle = color;
+    // fillColor = color;
+}
+
+function ChangeFillColor(color) {
     fillColor = color;
+    ctx.fillStyle = color;
 }
 
 
 function fill() {
     var canvas = document.getElementById("my-canvas");
     var ctx = canvas.getContext("2d");
-    var fillColor = document.getElementById("canvasColor").value;
+    var fillColor = document.getElementById("fillColor").value;
     ctx.fillStyle = fillColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }

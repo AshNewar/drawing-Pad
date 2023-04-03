@@ -70,11 +70,11 @@
             <section class="box3">
                 <div class="pickColor space">
                     <label for="fillColor">Stroke Color:</label>
-                    <input type="color" id="fillColor" name="fillColor" value="black" onchange="ChangeColor(this.value)" >
+                    <input type="color" id="strokeColor" name="strokeColor" onchange="ChangeColor(this.value)" >
                 </div>
                 <div class="canvasCOlor space">
-                <label for="strokeColor">Canvas Color:</label>
-                <input type="color" id="canvasColor" name="canvasColor" value="#000000" onchange="ChangeColorCanvas(this.value)">
+                    <label for="strokeColor">Fill Color:</label>
+                    <input type="color" id="fillColor" name="fillColor" value="#ffffff"onchange="ChangeFillColor(this.value)">
                 <button onclick="fill()">Fill Color</button>
                 </div>
                 <div class="item">
