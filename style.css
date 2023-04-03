@@ -45,3 +45,14 @@
     max-width:100%;
     height:auto;
 }
+
+.text-input {
+    padding: 5px;
+    border: 1px solid hsla(0, 0%, 0%, 0.2);
+    width: 200px;
+    margin: 0 10px 10px 0;
+    background-color: hsla(0, 0%, 0%, 0.03);
+    box-shadow: inset 0 2px 10px hsla(0, 0%, 0%, 0.15);
+    border-radius: 5px;
+    font-size: 1.2rem;
+  }

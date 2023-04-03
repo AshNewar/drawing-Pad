@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Color Fill</title>
+	<style>
+		canvas {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="myCanvas" width="500" height="500"></canvas>
+	<br>
+	<button onclick="fill()">Fill Color</button>
+	<script>
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+
+		var isDrawing = false;
+		var lastX = 0;
+		var lastY = 0;
+
+		canvas.addEventListener("mousedown", function(e) {
+			isDrawing = true;
+			lastX = e.clientX - canvas.offsetLeft;
+			lastY = e.clientY - canvas.offsetTop;
+		});
+
+		canvas.addEventListener("mousemove", function(e) {
+			if (isDrawing) {
+				var x = e.clientX - canvas.offsetLeft;
+				var y = e.clientY - canvas.offsetTop;
+
+				ctx.beginPath();
+				ctx.moveTo(lastX, lastY);
+				ctx.lineTo(x, y);
+				ctx.stroke();
+
+				lastX = x;
+				lastY = y;
+			}
+		});
+
+		canvas.addEventListener("mouseup", function(e) {
+			isDrawing = false;
+		});
+
+		canvas.addEventListener("mouseleave", function(e) {
+			isDrawing = false;
+		});
+
+		canvas.addEventListener("contextmenu", function(e) {
+			e.preventDefault();
+			var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+			var pixelStack = [{x: e.clientX - canvas.offsetLeft, y: e.clientY - canvas.offsetTop}];
+
+			var fillColor = document.getElementById("fillColor").value;
+			var targetColor = getPixel(imageData, pixelStack[0].x, pixelStack[0].y);
+
+			if (fillColor != targetColor) {
+				while (pixelStack.length) {
+					var currentPixel = pixelStack.pop();
+					var x = currentPixel.x;
+					var y = currentPixel.y;
+
+					var currentColor = getPixel(imageData, x, y);
+
+					if (currentColor == targetColor) {
+						setPixel(imageData, x, y, fillColor);
+
+						pixelStack.push({x: x + 1, y: y});
+						pixelStack.push({x: x - 1, y: y});
+						pixelStack.push({x: x, y: y + 1});
+						pixelStack.push({x: x, y: y - 1});
+					}
+				}
+
+				ctx.putImageData(imageData, 0, 0);
+			}
+		});
+
+		function getPixel(imageData, x, y) {
+			var index = (x + y * imageData.width) * 4;
+			var red = imageData.data[index];
+			var green = imageData.data[index + 1];
+			var blue = imageData.data[index + 2];
+			return rgbToHex(red, green, blue);
+		}
+
+		function setPixel(imageData, x, y, color) {
+			var index = (x + y * imageData.width) * 4;
+			var rgb = hexToRgb(color);
+			imageData.data[index] = rgb.r;
+			imageData.data[index + 1] = rgb.g;
+			imageData.data[index + 2] = rgb.b;
+			imageData.data[index + 3] = 255;
+		}
+
+		function rgbToHex(r, g, b) {
+			return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+		}
+
+        function componentToHex(c) {
+		var hex = c.toString(16);
+		return hex.length == 1 ? "0" + hex : hex;
+	}
+
+	function hexToRgb(hex) {
+		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+		return result ? {
+			r: parseInt(result[1], 16),
+			g: parseInt(result[2], 16),
+			b: parseInt(result[3], 16)
+		} : null;
+	}
+
+	function fill() {
+		var fillColor = document.getElementById("fillColor").value;
+		ctx.fillStyle = fillColor;
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+	}
+</script>
+<br>
+<label for="fillColor">Fill Color:</label>
+<input type="color" id="fillColor" name="fillColor" value="#ff0000">
+
+</body>
+</html>
